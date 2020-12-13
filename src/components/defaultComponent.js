@@ -40,6 +40,22 @@ function Formlayout(props) {
 }
 
 class DefaultLayout extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showSide: "",
+            notShowOffset: 1
+        };
+        this.onShow = this.onShow.bind(this); 
+    }
+
+    onShow() {
+        this.setState({
+            showSide: (this.state.showSide === "" ? 'none' : ''),
+            notShowOffset: (this.state.showSide === "" ? 2 : 1)
+        });
+    }
+
     render() {
         return(
             <Container fluid style={{padding:"0", margin:"0", overflowX:"hidden"}}> 
@@ -61,18 +77,19 @@ class DefaultLayout extends Component {
                     </Navbar.Collapse>
                 </Navbar>
                 <Row noGutters>
-                    <Col sm={2}>
+                    <Col sm={2} style={{display: this.state.showSide}}>
                         <div className="sideNav">
-                            <ul>
-                                <li>Hello</li>
-                            </ul>
+                            <Nav justify className="flex-column">
+                                <Nav.Link href="#" className="sideLink">Meme</Nav.Link>
+                                <Nav.Link href="#" className="sideLink active">Class Search</Nav.Link>
+                            </Nav>
                         </div>
                         
                     </Col>
                     <Col sm={1} className="align-self-center">
-                        <Button><i className="fa fa-bars"></i></Button>
+                        <Button onClick={this.onShow}><i className="fa fa-bars"></i></Button>
                     </Col>
-                    <Col sm={8} md={8} lg={{span:6, offset:1}}>
+                    <Col sm={8} md={8} lg={{span:6, offset: this.state.notShowOffset}}>
                         <Card border="primary" style={{width:'px'}}>
                             <Card.Header>Hello</Card.Header>
                             <Card.Body>
